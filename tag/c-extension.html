@@ -1,158 +1,81 @@
-<!DOCTYPE html>
-<html lang="ch">
-<head>
-    <meta charset="utf-8" />
-    <title>Awin's place2 | articles tagged "c extension"</title>
-    <link rel="shortcut icon" type="image/png" href="/favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/theme/css/screen.css" type="text/css" />
-    <link rel="stylesheet" href="/theme/css/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="/theme/css/print.css" type="text/css" media="print" />
-    <meta name="generator" content="Pelican" />
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li class="ephemeral selected"><a href="/tag/c-extension.html">c extension</a></li>
-                <li><a href="">Home</a></li>
-            </ul>
-        </nav>
-        <div class="header_box">
-            <h1><a href="">Awin's place2</a></h1>
-        </div>
-    </header>
-    <div id="wrapper">
-        <div id="content">            <h4 class="date">11 21, 2015</h4>
-
-            <article class="post">
-                <h2 class="title">
-                    <a href="/python_3_c_extension_in_windows.html" rel="bookmark" title="Permanent Link to &quot;Python 3 C Extension in Windows&quot;">Python 3 C Extension in Windows</a>
-                </h2>
-
-                <h1>新增Project</h1>
-<p><code>Visual Studio 2013 --&gt; File --&gt; New --&gt; Project</code>：選<code>Visual C++/Win32</code>，選<code>Win32 Project</code>，接著在<code>Application Setting</code>頁面，<code>Application type</code>選<code>DLL</code>，<code>Addtional Options</code>選<code>Empty project</code>，然後<code>Finish</code>新增一個project。  </p>
-<h1>準備工作</h1>
-<p>先把需要的include/lib路徑加入：</p>
-<ul>
-<li><code>project --&gt; properties --&gt; Configuration Properties --&gt; VC++ Directories</code>之下的<code>Include Directories</code>與<code>Libraray Directories</code>：</li>
-</ul>
-<p><img alt="include directories" src="https://www.dropbox.com/s/g9rw3qcsexbz5j2/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.11.54.png?dl=1" /><br />
-<img alt="library directories" src="https://www.dropbox.com/s/f932ya958qwmg1f/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.12.03.png?dl=1" />  </p>
-<ul>
-<li>project --&gt; properties --&gt; Configuration Properties --&gt; Linker --&gt; Input<code>之下的</code>Addtional Depenencies`：</li>
-</ul>
-<p><img alt="additional dependencies" src="https://www.dropbox.com/s/1rkv6gz7dzshzmr/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.12.27.png?dl=1" />  </p>
-<h1>寫code</h1>
-<p>新增一個<code>main.cpp</code>  </p>
-<p>內容如下：</p>
-<div class="highlight"><pre><span class="err">#</span><span class="nx">include</span> <span class="o">&lt;</span><span class="nx">python</span><span class="p">.</span><span class="nx">h</span><span class="o">&gt;</span>
-
-<span class="err">#</span><span class="nx">ifdef</span> <span class="nx">__cplusplus</span>
-<span class="nx">extern</span> <span class="s2">&quot;C&quot;</span> <span class="p">{</span>
-<span class="err">#</span><span class="nx">endif</span>
-
-<span class="kr">static</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">sayHello</span><span class="p">(</span><span class="nx">PyObject</span><span class="o">*</span> <span class="nx">self</span><span class="p">,</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">args</span><span class="p">);</span>
-<span class="kr">static</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">sayGoodBye</span><span class="p">(</span><span class="nx">PyObject</span><span class="o">*</span> <span class="nx">self</span><span class="p">,</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">args</span><span class="p">);</span>
-
-<span class="kr">static</span> <span class="nx">PyMethodDef</span> <span class="nx">awin_pyMethods</span><span class="cp">[]</span> <span class="o">=</span>
-<span class="p">{</span>
-    <span class="p">{</span> <span class="s2">&quot;awin_func1&quot;</span><span class="p">,</span> <span class="nx">sayHello</span><span class="p">,</span> <span class="nx">METH_VARARGS</span><span class="p">,</span> <span class="s2">&quot;A function to print hello.&quot;</span> <span class="p">},</span>
-    <span class="p">{</span> <span class="s2">&quot;awin_funGoodBye&quot;</span><span class="p">,</span> <span class="nx">sayGoodBye</span><span class="p">,</span> <span class="nx">METH_VARARGS</span><span class="p">,</span> <span class="s2">&quot;A function to print goodbye.&quot;</span> <span class="p">},</span>
-    <span class="p">{</span> <span class="nx">NULL</span><span class="p">,</span> <span class="nx">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">NULL</span> <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="kr">static</span> <span class="nx">struct</span> <span class="nx">PyModuleDef</span> <span class="nx">awin_pymodule</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">PyModuleDef_HEAD_INIT</span><span class="p">,</span>
-    <span class="s2">&quot;awin_py&quot;</span><span class="p">,</span>   <span class="cm">/* name of module */</span>
-    <span class="s2">&quot;A module to wrapper c code&quot;</span><span class="p">,</span> <span class="cm">/* module documentation, may be NULL */</span>
-    <span class="o">-</span><span class="mi">1</span><span class="p">,</span>       <span class="cm">/* size of per-interpreter state of the module, or -1 if the module keeps state in global variables. */</span>
-    <span class="nx">awin_pyMethods</span>
-<span class="p">};</span>
-
-<span class="nx">PyMODINIT_FUNC</span> <span class="nx">PyInit_awin_py</span><span class="p">(</span><span class="k">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="nx">PyObject</span> <span class="o">*</span><span class="nx">m</span><span class="p">;</span>
-
-    <span class="nx">m</span> <span class="o">=</span> <span class="nx">PyModule_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">awin_pymodule</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">m</span> <span class="o">==</span> <span class="nx">NULL</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nx">NULL</span><span class="p">;</span>
-
-    <span class="k">return</span> <span class="nx">m</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kr">static</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">sayHello</span><span class="p">(</span><span class="nx">PyObject</span><span class="o">*</span> <span class="nx">self</span><span class="p">,</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">args</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/*</span>
-<span class="cm">     *  Accept argument: name(string)</span>
-<span class="cm">     *  Retrun: None</span>
-<span class="cm">     *  Python Code:</span>
-<span class="cm">     *      awin_py.sayHello(&quot;Awin&quot;)</span>
-<span class="cm">     */</span>
-
-    <span class="kr">char</span><span class="o">*</span> <span class="nx">name</span><span class="p">;</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">PyArg_ParseTuple</span><span class="p">(</span><span class="nx">args</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">name</span><span class="p">))</span>
-        <span class="k">return</span> <span class="nx">NULL</span><span class="p">;</span>
-
-    <span class="nx">printf</span><span class="p">(</span><span class="s2">&quot;Hello: %s\n&quot;</span><span class="p">,</span> <span class="nx">name</span><span class="p">);</span>
-
-    <span class="nx">Py_RETURN_NONE</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kr">static</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">sayGoodBye</span><span class="p">(</span><span class="nx">PyObject</span><span class="o">*</span> <span class="nx">self</span><span class="p">,</span> <span class="nx">PyObject</span><span class="o">*</span> <span class="nx">args</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/*</span>
-<span class="cm">    *  Accept argument: hour(int), minute(int)</span>
-<span class="cm">    *  Retrun: hour + min(int)</span>
-<span class="cm">    *  Python Code:</span>
-<span class="cm">    *      awin_py.sayGoodBye(21, 30)</span>
-<span class="cm">    */</span>
-
-    <span class="kr">int</span> <span class="nx">hour</span><span class="p">,</span> <span class="nx">min</span><span class="p">;</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">PyArg_ParseTuple</span><span class="p">(</span><span class="nx">args</span><span class="p">,</span> <span class="s2">&quot;II&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">hour</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">min</span><span class="p">))</span>
-        <span class="k">return</span> <span class="nx">NULL</span><span class="p">;</span>
-
-    <span class="nx">printf</span><span class="p">(</span><span class="s2">&quot;Goodbyte at %d:%d\n&quot;</span><span class="p">,</span> <span class="nx">hour</span><span class="p">,</span> <span class="nx">min</span><span class="p">);</span>
-
-    <span class="k">return</span> <span class="nx">PyLong_FromLong</span><span class="p">(</span><span class="nx">hour</span> <span class="o">+</span> <span class="nx">min</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="err">#</span><span class="nx">ifdef</span> <span class="nx">__cplusplus</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">endif</span>
-</pre></div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ch">
+  <head>
+    <title>Tag c extension - Awin's place2</title>
+    <link href="http://fonts.googleapis.com/css?family=Arimo:400,700|Inika" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/theme/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/pastie.css" />
+    <link href="/" type="application/atom+xml" rel="alternate" title="Awin's place2 Atom Feed" />
 
 
-<p>主要的部分有三個：<br />
-1. <code>PyModuleDef</code>，這是定一本module的名字與function structure。<br />
-2. <code>PyMethodDef</code>，可以被Python呼叫的function都定義在這邊。第一個欄位是Python內會看到的method name，第二個欄位是C的function name，第三個欄位就填<code>METH_VARARGS</code>，第四個欄位是method的說明。<br />
-3. 最後是<code>PyInit_awin_py</code>，注意這裡的function name必須是<code>PyInit_</code> + <code>module name</code>，本例的module name是<code>awin_py</code>，所以init function的名字就必須是<code>PyInit_awin_py()</code>。  </p>
-<p>最後是C function的內容。<br />
-在C function內是用<code>PyArg_ParseTuple()</code>來找出Python丟下來的參數，詳細的參數列表可以看<a href="https://docs.python.org/3/c-api/arg.html">Parsing arguments and building values</a>，以<code>sayHello()</code>來說 ，接受一個字串參數，所以用<code>s</code>來將Python丟下來的參數放到<code>name</code>變數裡。因為這function沒什麼藥return給python的，所以最後用<code>Py_RETURN_NONE</code>。</p>
-<p><code>sayGoodBye()</code>則是為了示範接收兩個int參數，所以用了兩個<code>I</code>。最後回傳一個整數給Python，所以用了<code>PyLong_FromLong()</code>來將整數轉為Python Object回傳。  </p>
-<p><code>PyXXX_FromXXX</code>之類的function很多，可以參考<a href="https://docs.python.org/3/c-api/long.html">Integer Objects</a>。  </p>
-                <div class="clear"></div>
+  </head>
 
-                <div class="info">
-                    <a href="/python_3_c_extension_in_windows.html">posted at 19:54</a>
-                    &nbsp;&middot;&nbsp;<a href="/category/python.html" rel="tag">Python</a>
-                    &nbsp;&middot;
-                    &nbsp;<a href="/tag/python.html" class="tags">python</a>
-                    &nbsp;<a href="/tag/c-extension.html" class="tags selected">c extension</a>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="span8">
+<div id="content">
+<h1>Blog</h1>
+
+<ul class="unstyled">
+        <li>
+            <div>
+                <div class="header">
+                    <h2>Python 3 C Extension in Windows</h2>
                 </div>
-            </article>
+                <p class="meta"><small><span><a href="/author/awin-huang/">Awin Huang</a> - </span><span>六 21 11月 2015</span> - <span class="tags"><a href="/tag/python/">python</a>, <a href="/tag/c extension/">c extension</a></span></small></p>
+                <div class="entry-content">
+                    <p>Wrtie C Externsion of Python in Visual Studio 2013</p>
+                </div><!-- /.entry-content -->
+                <div class="row">
+                    <div class="span4">
+                    </div>
+                    <div class="span1 offset3">
+                        <a class="btn btn-small" href="/python_3_c_extension_in_windows.html" rel="bookmark" title="Permalink to Python 3 C Extension in Windows">Mehr</a>
+                    </div>
+                </div>
+            </div>
+        </li>
 
-            <div class="clear"></div>
-            <footer>
-                <p>
-                <a href="https://github.com/jody-frankowski/blue-penguin">Blue Penguin</a> Theme
-                &middot;
-                Powered by <a href="http://getpelican.com">Pelican</a>
-            </footer>
+        <li><hr /></li>
+</ul><!-- /#posts-list -->
+
+<div class="pagination pagination-centered">
+    <ul>
+        <li class="active"><a href="#">1</a></li>
+    </ul>
+</div>
+</div><!-- /#content -->
         </div>
-        <div class="clear"></div>
+        <div class="span3 offset1">
+          <div class="well">
+            <ul class="nav nav-list">
+              <li class="nav-header">Blog</li>
+              <li ><a href="">Index</a></li>
+              <li ><a href="/tags/">Tags</a></li>
+              <li ><a href="/archives/">Archiv</a></li>
+              <li class="nav-header">Links</li>
+              <li><a href="http://getpelican.com/">Pelican</a></li>
+              <li><a href="http://python.org/">Python.org</a></li>
+              <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+              <li><a href="#">You can modify those links in your config file</a></li>
+            </ul>
+          </div><!-- /#menu -->
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <div class="span12">
+          <div id="about">
+            <p>Proudly powered by <a href="http://twitter.github.com/bootstrap/">bootstrap</a>, <a href="http://docs.notmyidea.org/alexis/pelican/">pelican</a>, <a href="http://python.org">python</a> and <a href="http://www.julo.ch/about/">Alex</a>!</p>
+          </div><!-- /#about -->
+        </div><!-- /#contentinfo -->
+      </div>
     </div>
-</body>
+
+
+  </body>
 </html>
