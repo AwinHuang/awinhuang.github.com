@@ -66,20 +66,20 @@
 </p>
                 <p class="uk-article-lead" itemprop="description">Wrtie C Externsion of Python in Visual Studio 2013</p>
                 <section itemprop="articleBody"><h1>新增Project</h1>
-<p><code>Visual Studio 2013 --&gt; File --&gt; New --&gt; Project</code>：選<code>Visual C++/Win32</code>，選<code>Win32 Project</code>，接著在<code>Application Setting</code>頁面，<code>Application type</code>選<code>DLL</code>，<code>Addtional Options</code>選<code>Empty project</code>，然後<code>Finish</code>新增一個project。  </p>
+<p><code>Visual Studio 2013 --&gt; File --&gt; New --&gt; Project</code>：選<code>Visual C++/Win32</code>，選<code>Win32 Project</code>，接著在<code>Application Setting</code>頁面，<code>Application type</code>選<code>DLL</code>，<code>Addtional Options</code>選<code>Empty project</code>，然後<code>Finish</code>新增一個project。</p>
 <h1>準備工作</h1>
 <p>先把需要的include/lib路徑加入：</p>
 <ul>
 <li><code>project --&gt; properties --&gt; Configuration Properties --&gt; VC++ Directories</code>之下的<code>Include Directories</code>與<code>Libraray Directories</code>：</li>
 </ul>
-<p><img alt="include directories" src="https://www.dropbox.com/s/g9rw3qcsexbz5j2/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.11.54.png?dl=1" /><br />
-<img alt="library directories" src="https://www.dropbox.com/s/f932ya958qwmg1f/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.12.03.png?dl=1" />  </p>
+<p><img alt="include directories" src="https://www.dropbox.com/s/g9rw3qcsexbz5j2/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.11.54.png?dl=1" />
+<img alt="library directories" src="https://www.dropbox.com/s/f932ya958qwmg1f/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.12.03.png?dl=1" /></p>
 <ul>
 <li>project --&gt; properties --&gt; Configuration Properties --&gt; Linker --&gt; Input<code>之下的</code>Addtional Depenencies`：</li>
 </ul>
-<p><img alt="additional dependencies" src="https://www.dropbox.com/s/1rkv6gz7dzshzmr/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.12.27.png?dl=1" />  </p>
+<p><img alt="additional dependencies" src="https://www.dropbox.com/s/1rkv6gz7dzshzmr/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-11-21%20%E4%B8%8B%E5%8D%888.12.27.png?dl=1" /></p>
 <h1>寫code</h1>
-<p>新增一個<code>main.cpp</code>  </p>
+<p>新增一個<code>main.cpp</code></p>
 <p>內容如下：</p>
 <div class="highlight"><pre><span class="err">#</span><span class="nx">include</span> <span class="o">&lt;</span><span class="nx">python</span><span class="p">.</span><span class="nx">h</span><span class="o">&gt;</span>
 
@@ -160,14 +160,14 @@
 </pre></div>
 
 
-<p>主要的部分有三個：<br />
-1. <code>PyModuleDef</code>，這是定一本module的名字與function structure。<br />
-2. <code>PyMethodDef</code>，可以被Python呼叫的function都定義在這邊。第一個欄位是Python內會看到的method name，第二個欄位是C的function name，第三個欄位就填<code>METH_VARARGS</code>，第四個欄位是method的說明。<br />
-3. 最後是<code>PyInit_awin_py</code>，注意這裡的function name必須是<code>PyInit_</code> + <code>module name</code>，本例的module name是<code>awin_py</code>，所以init function的名字就必須是<code>PyInit_awin_py()</code>。  </p>
-<p>最後是C function的內容。<br />
+<p>主要的部分有三個：
+1. <code>PyModuleDef</code>，這是定一本module的名字與function structure。
+2. <code>PyMethodDef</code>，可以被Python呼叫的function都定義在這邊。第一個欄位是Python內會看到的method name，第二個欄位是C的function name，第三個欄位就填<code>METH_VARARGS</code>，第四個欄位是method的說明。
+3. 最後是<code>PyInit_awin_py</code>，注意這裡的function name必須是<code>PyInit_</code> + <code>module name</code>，本例的module name是<code>awin_py</code>，所以init function的名字就必須是<code>PyInit_awin_py()</code>。</p>
+<p>最後是C function的內容。
 在C function內是用<code>PyArg_ParseTuple()</code>來找出Python丟下來的參數，詳細的參數列表可以看<a href="https://docs.python.org/3/c-api/arg.html">Parsing arguments and building values</a>，以<code>sayHello()</code>來說 ，接受一個字串參數，所以用<code>s</code>來將Python丟下來的參數放到<code>name</code>變數裡。因為這function沒什麼藥return給python的，所以最後用<code>Py_RETURN_NONE</code>。</p>
-<p><code>sayGoodBye()</code>則是為了示範接收兩個int參數，所以用了兩個<code>I</code>。最後回傳一個整數給Python，所以用了<code>PyLong_FromLong()</code>來將整數轉為Python Object回傳。  </p>
-<p><code>PyXXX_FromXXX</code>之類的function很多，可以參考<a href="https://docs.python.org/3/c-api/long.html">Integer Objects</a>。  </p></section>
+<p><code>sayGoodBye()</code>則是為了示範接收兩個int參數，所以用了兩個<code>I</code>。最後回傳一個整數給Python，所以用了<code>PyLong_FromLong()</code>來將整數轉為Python Object回傳。</p>
+<p><code>PyXXX_FromXXX</code>之類的function很多，可以參考<a href="https://docs.python.org/3/c-api/long.html">Integer Objects</a>。</p></section>
                 <a href="/python_3_c_extension_in_windows.html#disqus_thread"></a>
                 <hr class="uk-article-divider">
             </article>

@@ -73,7 +73,7 @@
             <p class="uk-article-meta">
                 <time datetime="2015-11-21">六 21 11月 2015</time>
             </p>
-            <p>新增Project Visual Studio 2013 --> File --> New --> Project：選Visual C++/Win32，選Win32 Project，接著在Application Setting頁面，Application type選DLL，Addtional Options選Empty project，然後Finish新增一個project。 準備工作 先把需要的include/lib路徑加入： project --> properties --> Configuration Properties --> VC++ Directories之下的Include Directories與Libraray Directories： project --> properties --> Configuration Properties --> Linker --> Input之下的Addtional Depenencies`： 寫code 新增一個main.cpp 內容如下： #include <python.h> #ifdef __cplusplus extern "C" { #<span...</p>
+            <p>新增Project Visual Studio 2013 --> File --> New --> Project：選Visual C++/Win32，選Win32 Project，接著在Application Setting頁面，Application type選DLL，Addtional Options選Empty project，然後Finish新增一個project。 準備工作 先把需要的include/lib路徑加入： project --> properties --> Configuration Properties --> VC++ Directories之下的Include Directories與Libraray Directories： project --> properties --> Configuration Properties --> Linker --> Input之下的Addtional Depenencies`： 寫code 新增一個main.cpp 內容如下： #include <python.h> #ifdef __cplusplus extern "C" { #endif static PyObject* sayHello(PyObject<span...</p>
         </article>
         
 
