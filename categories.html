@@ -1,52 +1,63 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ch">
+<!DOCTYPE html>
+<html lang="ch">
   <head>
-    <title> - Awin's place2</title>
-    <link href="http://fonts.googleapis.com/css?family=Arimo:400,700|Inika" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="/theme/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/theme/pastie.css" />
-    <link href="/" type="application/atom+xml" rel="alternate" title="Awin's place2 Atom Feed" />
-
-
+    <meta charset="utf-8" />
+    <title>Awin's place2 — Catégories</title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/skeleton.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/main.css" />
+    <link rel="shortcut icon" type="text/css" href="/favicon.ico" />
+    <link rel="alternate" type="application/atom+xml"
+                           title="Awin's place2 — Flux Atom"
+                           href="/" /> 
+    <!--[if lte IE 8]><script src="/theme/js/html5shiv.js"></script><![endif]-->
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
   </head>
-
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="span8">
-<ul>
-    <li>Python</li>
-</ul>
-        </div>
-        <div class="span3 offset1">
-          <div class="well">
-            <ul class="nav nav-list">
-              <li class="nav-header">Blog</li>
-              <li ><a href="">Index</a></li>
-              <li ><a href="/tags/">Tags</a></li>
-              <li ><a href="/archives/">Archiv</a></li>
-              <li class="nav-header">Links</li>
-              <li><a href="http://getpelican.com/">Pelican</a></li>
-              <li><a href="http://python.org/">Python.org</a></li>
-              <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-              <li><a href="#">You can modify those links in your config file</a></li>
-            </ul>
-          </div><!-- /#menu -->
-        </div>
-      </div>
+    <div class="page">
+      <header class="page-head">
+        <h1>
+          <a href="/index.html">Awin's place2</a>
+        </h1>
+      </header>
 
-      <hr />
-
-      <div class="row">
-        <div class="span12">
-          <div id="about">
-            <p>Proudly powered by <a href="http://twitter.github.com/bootstrap/">bootstrap</a>, <a href="http://docs.notmyidea.org/alexis/pelican/">pelican</a>, <a href="http://python.org">python</a> and <a href="http://www.julo.ch/about/">Alex</a>!</p>
-          </div><!-- /#about -->
-        </div><!-- /#contentinfo -->
+      <div class="page-content">
+    <section class="content">
+      <h1>Catégories</h1>
+      <ul id="category-list">
+      <li><a href="/category/python.html">Python</a> (2 articles)</li>
+      </ul>
+    </section>
       </div>
+    <aside class="page-sidebar">
+      <nav class="widget">
+      <h3>Site</h3>
+        <ul>
+          <li><a href="">Accueil</a></li>
+          <li><a href="/archives.html">Archives</a></li>
+          <li><a href="/tags.html">Mots-clés</a></li>
+        </ul>
+      </nav>
+
+      <nav class="widget">
+        <h3>Catégories</h3>
+        <ul>
+          <li><a href="/category/python.html">Python</a></li>
+        </ul>
+      </nav>
+
+      <nav class="widget">
+        <h3>Social</h3>
+        <ul>
+          <li><a href="You can add links in your config file">#</a></li>
+          <li><a href="Another social link">#</a></li>
+          <li><a href="/" rel="alternate">Flux Atom</a></li>
+        </ul>
+      </nav>
+    </aside> 
+
+      <footer class="page-footer">
+        <p> Powered by <a href="http://pelican.readthedocs.org">Pelican</a></p>
+      </footer>
     </div>
-
-
   </body>
 </html>
